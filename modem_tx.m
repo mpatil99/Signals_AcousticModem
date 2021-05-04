@@ -12,12 +12,15 @@ m_us = upsample(m, SymbolPeriod);
 m_boxy = conv(m_us, ones(SymbolPeriod, 1));
 plot(m_boxy); % visualize the boxy signal
 
+figure(2)
 % create a cosine with analog frequency f_c
 c = cos(2*pi*f_c/Fs*[0:length(m_boxy)-1]');
 % create the transmitted signal
 x_tx = m_boxy.*c;
 plot(x_tx)  % visualize the transmitted signal
 
+figure
+plot_ft_rad(x_tx, Fs)
 % create  noise-like signal 
 % to synchronize the transmission
 % this same noise sequence will be used at
