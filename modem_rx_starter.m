@@ -28,21 +28,24 @@ y_tc = y_t .* c;
 % title("y_tc");
 % figure
 % plot_ft_rad(y_tc, Fs);
-filter = sinc(2*pi*f_c*[0:length(y_t)-1]');
+filter = Fs/(2*f_c) * sinc(2*f_c/Fs*[0:length(y_t)-1]');
 
 % figure
 plot_ft_rad(filter, Fs);
 
 y_tfil = conv(y_tc, filter);
-% y_norm = y_tc ./ abs(y_tc);
+y_norm = y_tfil ./ abs(y_tfil);
 % 
-% figure
-% plot(y_tfil)
+figure
+plot(y_tfil)
+figure
+plot(y_norm(1:4000));
+x_d = (y_norm(1:4000) + 1) ./2;
 %%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 % convert to a string assuming that x_d is a vector of 1s and 0s
 % representing the decoded bits
-% BitsToString(x_d)
+BitsToString(x_d)
 
