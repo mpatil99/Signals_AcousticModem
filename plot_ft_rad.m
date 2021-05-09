@@ -23,6 +23,6 @@ function [X, f] = plot_ft_rad(x, fs)
     
     f = linspace(-fs/2*2*pi, 2*pi*fs/2- 2*pi*fs/length(x), length(x));
     plot(f, abs(X));
-    xlabel('Frequency (rad/s)');
-    ylabel('|X(j\omega)|');
+    xlabel('Frequency (rad/s)', 'Interpreter', 'Latex');
+    ylabel('$|Y_t(j\omega)|$', 'Interpreter', 'Latex');
 end
