@@ -1,8 +1,8 @@
 close all
 clear
 
-test = "short"; % Replace with "short" or "long" to test that file
-plot = false; % "Turn plotting on or off
+test = "long"; % Replace with "short" or "long" to test that file
+should_plot = true; % "Turn plotting on or off
 
 load(strcat(test,"_modem_rx.mat"))
 
@@ -22,12 +22,12 @@ message_length = msg_length * 8 * 100;
 x_t = x_t(1:message_length);
 y_t = y_t(1:message_length);
 
-if plot
+if should_plot
     figure
     plot(x_t, y_t);
     title("Received Signal", 'Interpreter', 'Latex');
     xlabel("Time (s)", 'Interpreter', 'Latex');
-    ylabel("$y_t$", 'Interpreter', 'Latex');
+    ylabel("$y_t(t)$", 'Interpreter', 'Latex');
     saveas(gcf,strcat('images/received_time_',test),'epsc')
 
     figure
@@ -39,7 +39,7 @@ end
 c = cos(2*pi*f_c/Fs * [0:message_length-1]');
 y_c = y_t .* c;
 
-if plot
+if should_plot
     figure
     plot(x_t, y_c);
     title("Signal convolved with cosine", 'Interpreter', 'Latex');
@@ -50,6 +50,7 @@ if plot
     figure
     plot_ft_rad(y_c, Fs);
     title("Signal convolved with cosine Frequency Plot", 'Interpreter', 'Latex');
+    ylabel('$|Y_c(j\omega)|$', 'Interpreter', 'Latex');
     saveas(gcf,strcat('images/convolved_freq_',test),'epsc')
 end
 %% Low pass Filter
@@ -62,7 +63,7 @@ y_filtered = conv(y_c, filter);
 % Truncate filtered signal by extra added by convolved cosine length
 y_tilde = y_filtered(length(t)/2:end -length(t)/2);
 
-if plot
+if should_plot
     figure
     plot(t, filter);
     title("Filter", 'Interpreter', 'Latex');
@@ -95,7 +96,7 @@ y_norm = y_tilde ./ abs(y_tilde);
 % and then shift to 0s and 1s
 x_d = (y_norm + 1) ./2;
 
-if plot
+if should_plot
     figure
     plot(x_t, x_d);
     title("Normalized and Shifted", 'Interpreter', 'Latex');
