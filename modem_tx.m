@@ -1,6 +1,8 @@
+clear 
 Fs = 8192;
 f_c = 1000;
-bits_to_send = StringToBits('What was Beethoven’s favorite fruit? BA-NA-NA-NAAAAAA; What is Beethoven doing now? De-composing.; C, E-flat, and G walk into a bar. The bartender shows them the door and says, “Sorry, we don’t serve minors.”; Why do bagpipe players walk while they play? To get away from the noise.');
+% bits_to_send = StringToBits('What was Beethoven''s favorite fruit? BA-NA-NA-NAAAAAA. What is Beethoven doing now? De-composing.; C, E-flat, and G walk into a bar. The bartender shows them the door and says, Sorry, we don''t serve minors.; Why do bagpipe players walk while they play? To get away from the noise.');
+bits_to_send = StringToBits('P AND M');
 msg_length = length(bits_to_send)/8;
 SymbolPeriod = 100;
 
@@ -20,7 +22,7 @@ x_tx = m_boxy.*c;
 plot(x_tx)  % visualize the transmitted signal
 
 figure
-plot_ft_rad(x_tx, Fs)
+plot_ft_rad(x_tx, Fs);
 % create  noise-like signal 
 % to synchronize the transmission
 % this same noise sequence will be used at
@@ -32,7 +34,7 @@ x_sync = randn(Fs/4,1);
 x_sync = x_sync/max(abs(x_sync))*0.5;
 % stick it at the beginning of the transmission
 x_tx = [x_sync;x_tx];
-save sync_noise.mat x_sync Fs msg_length
+save sync_noise.mat x_tx x_sync Fs msg_length
 % write the data to a file
 audiowrite('acoustic_modem_short_tx.wav', x_tx, Fs);
 

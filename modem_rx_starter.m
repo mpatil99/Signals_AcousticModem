@@ -1,8 +1,15 @@
 close all
 clear
 
-test = "long"; % Replace with "short" or "long" to test that file
+test = "funky"; % Replace with "short" or "long" to test that file
 should_plot = true; % "Turn plotting on or off
+
+if test == "funky"
+%     load("sync_noise.mat")
+    f_c = 1000;
+%     y_r = x_tx;
+%     msg_length = 282;
+end
 
 load(strcat(test,"_modem_rx.mat"))
 
@@ -55,7 +62,7 @@ if should_plot
 end
 %% Low pass Filter
 
-W = 2*pi*1000;	% set the cutoff frequency to 2 pi * 500 rads/s
+W = 2*pi*1000;	% set the cutoff frequency to 2 pi * 1000 rads/s
 t = (-100:1:99)*(1/Fs);   % create a 200 sample time vector to generate sinc
 filter = W/pi*sinc(W/pi*t);
 y_filtered = conv(y_c, filter);
@@ -73,7 +80,7 @@ if should_plot
 
     figure
     plot_ft_rad(filter, Fs);
-    title("Signal convolved with cosine Frequency Plot", 'Interpreter', 'Latex');
+    title("Filter Frequency Plot", 'Interpreter', 'Latex');
     ylabel('$|H_t(j\omega)|$', 'Interpreter', 'Latex');
     saveas(gcf,'images/filter_freq','epsc')
 
@@ -81,13 +88,13 @@ if should_plot
     plot(x_t, y_tilde);
     title("Filtered Signal", 'Interpreter', 'Latex');
     xlabel("Time (s)", 'Interpreter', 'Latex');
-    ylabel("$\tilde{x}(t)$", 'Interpreter', 'Latex');
+    ylabel("$\tilde{y}(t)$", 'Interpreter', 'Latex');
     saveas(gcf,strcat('images/filtered_time_',test),'epsc')
 
     figure
     plot_ft_rad(y_tilde, Fs);
-    title("Signal convolved with cosine Frequency Plot", 'Interpreter', 'Latex');
-    ylabel('$|\tilde{X}(j\omega)|$', 'Interpreter', 'Latex');
+    title("Filtered Signal Frequency Plot", 'Interpreter', 'Latex');
+    ylabel('$|\tilde{Y}(j\omega)|$', 'Interpreter', 'Latex');
     saveas(gcf,strcat('images/filtered_freq_',test),'epsc')
 end
 %% Clean up
@@ -101,13 +108,13 @@ if should_plot
     plot(x_t, x_d);
     title("Normalized and Shifted", 'Interpreter', 'Latex');
     xlabel("Time (s)", 'Interpreter', 'Latex');
-    ylabel("$\tilde{x}_n(t)$", 'Interpreter', 'Latex');
+    ylabel("$x_d(t)$", 'Interpreter', 'Latex');
     saveas(gcf,strcat('images/normalshifted_time_',test),'epsc')
 
     figure
     plot_ft_rad(x_d, Fs);
     title("Normalized and Shifted Signal Frequency Plot", 'Interpreter', 'Latex');
-    ylabel('$|\tilde{X}_n(j\omega)|$', 'Interpreter', 'Latex');
+    ylabel('$|X_d(j\omega)|$', 'Interpreter', 'Latex');
     saveas(gcf,strcat('images/normalshifted_freq_',test),'epsc')
 end
 %% Decode
@@ -116,7 +123,7 @@ end
 % representing the decoded bits
 
 % Uncomment to see all letters before downsampling
-%BitsToString(x_d);
+BitsToString(x_d);
 x_d = downsample(x_d, 100, 50);
 data = BitsToString(x_d)
 
