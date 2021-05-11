@@ -1,6 +1,6 @@
 Fs = 8192;
 f_c = 1000;
-bits_to_send = StringToBits('Hello');
+bits_to_send = StringToBits('What was Beethoven’s favorite fruit? BA-NA-NA-NAAAAAA; What is Beethoven doing now? De-composing.; C, E-flat, and G walk into a bar. The bartender shows them the door and says, “Sorry, we don’t serve minors.”; Why do bagpipe players walk while they play? To get away from the noise.');
 msg_length = length(bits_to_send)/8;
 SymbolPeriod = 100;
 
