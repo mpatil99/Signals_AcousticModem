@@ -22,7 +22,7 @@ start_idx = find_start_of_signal(y_r,x_sync);
 % we need to offset by the length of x_sync to only include the signal
 % we are interested in
 
-y_t = y_r(start_idx+length(x_sync):end); % y_t is the signal which starts at the beginning of the transmission
+y_t = flip(y_r(start_idx+length(x_sync):end)); % y_t is the signal which starts at the beginning of the transmission
 x_t = (0:1/8192:(length(y_t)-1)/8192)';
 
 message_length = msg_length * 8 * 100;
